@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Для моей Любимой ❤️</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <h1>Для моей Любимой ❤️</h1>
+
+  <!-- Падающие сердечки -->
+  <script>
+    for (let i = 0; i < 30; i++) {
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.innerHTML = '❤️';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.fontSize = Math.random() * 30 + 20 + 'px';
+      heart.style.animationDuration = (Math.random() * 5 + 5) + 's';
+      heart.style.animationDelay = Math.random() * 5 + 's';
+      document.body.appendChild(heart);
+    }
+  </script>
+
+  <!-- Галерея -->
+  <div class="gallery">
+
+    <!-- Фото 1 -->
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <img src="assets/images/1.jpg" alt="Фото 1">
+        </div>
+        <div class="flip-card-back">
+          <p>Ты — свет, что в сердце мне сияет,<br>И каждый день с тобой — как сон.<br>Моя душа с твоей играет<br>На струнах нежности вдвоем.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Фото 2 — Твоё -->
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <img src="assets/images/2.jpg" alt="Фото 2">
+        </div>
+        <div class="flip-card-back">
+          <p>Навсегда твой. Без условий, границ и сомнений.<br>Ты — мой смысл. Моё всё. Моя бесконечность.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Фото 3 -->
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <img src="assets/images/3.jpg" alt="Фото 3">
+        </div>
+        <div class="flip-card-back">
+          <p>Ты — как весна, что всё цветёт,<br>Ты — как рассвет среди тревог.<br>Ты — мой чудесный поворот,<br>Ты — счастье, посланное Бог.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Фото 4 — Твоё -->
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <img src="assets/images/4.jpg" alt="Фото 4">
+        </div>
+        <div class="flip-card-back">
+          <p>Я принадлежу тебе — сердцем и душой.<br>Ты — мой дом, моя вечность, моя любовь.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Итоговый стих -->
+  <div class="final-poem">
+    <p>
+      Ты в каждом взгляде, в каждом сне,<br>
+      Ты в каждой капле тишины.<br>
+      С тобой я стал собой вполне —<br>
+      В тебе я обретаю сны.<br><br>
+
+      Ты — моя радость, вдохновенье,<br>
+      Ты — мой рассвет и каждый миг.<br>
+      И пусть весь мир прольёт сомненья —<br>
+      Я за тебя, любимая, навек велик.
+    </p>
+  </div>
+
+  <!-- Фоновая музыка -->
+  <audio autoplay loop>
+    <source src="Soon, My Love❤️ (1) (1).mp3" type="audio/mpeg">
+    Ваш браузер не поддерживает аудио.
+  </audio>
+
+</body>
+</html>
