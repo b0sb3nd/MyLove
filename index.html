@@ -262,15 +262,6 @@
     }
 
     function updatePlayPauseButton() {
-      // Для мини-кнопки
-      const miniPlayPauseIcon = document.getElementById('miniPlayPauseIcon');
-      if (miniPlayPauseIcon) {
-        if (audio.paused) {
-          miniPlayPauseIcon.innerHTML = `<svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="9" stroke="#d6336c" stroke-width="2" fill="#fff"/><polygon points="8,6 15,10 8,14" fill="#d6336c"/></svg>`;
-        } else {
-          miniPlayPauseIcon.innerHTML = `<svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="9" stroke="#d6336c" stroke-width="2" fill="#fff"/><rect x="7" y="6" width="2.5" height="8" rx="1" fill="#d6336c"/><rect x="11" y="6" width="2.5" height="8" rx="1" fill="#d6336c"/></svg>`;
-        }
-      }
       // Для основного плеера
       const mainPlayPauseIcon = document.getElementById('mainPlayPauseIcon');
       if (mainPlayPauseIcon) {
@@ -278,6 +269,15 @@
           mainPlayPauseIcon.innerHTML = `<svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="14" cy="14" r="13" fill="#fff" stroke="#d6336c" stroke-width="2"/><polygon points="11,9 20,14 11,19" fill="#d6336c"/></svg>`;
         } else {
           mainPlayPauseIcon.innerHTML = `<svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="14" cy="14" r="13" fill="#fff" stroke="#d6336c" stroke-width="2"/><rect x="10" y="9" width="3" height="10" rx="1" fill="#d6336c"/><rect x="15" y="9" width="3" height="10" rx="1" fill="#d6336c"/></svg>`;
+        }
+      }
+      // Для мини-кнопки
+      const miniPlayPauseIcon = document.getElementById('miniPlayPauseIcon');
+      if (miniPlayPauseIcon) {
+        if (audio.paused) {
+          miniPlayPauseIcon.innerHTML = `<svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="9" stroke="#d6336c" stroke-width="2" fill="#fff"/><polygon points="8,6 15,10 8,14" fill="#d6336c"/></svg>`;
+        } else {
+          miniPlayPauseIcon.innerHTML = `<svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="9" stroke="#d6336c" stroke-width="2" fill="#fff"/><rect x="7" y="6" width="2.5" height="8" rx="1" fill="#d6336c"/><rect x="11" y="6" width="2.5" height="8" rx="1" fill="#d6336c"/></svg>`;
         }
       }
     }
@@ -302,23 +302,33 @@
     // Начинаем воспроизведение первого трека
     playTrack(0);
 
+    // Изначально скрываем мини-кнопку "показать плеер"
+    document.getElementById('miniShowPlayerBtn').style.display = 'none';
+
     // Функция для открытия/закрытия галереи
     function toggleGallery() {
       const gallery = document.getElementById('beautifulGallery');
       const musicPlayer = document.querySelector('.music-player');
       const miniMusicBtns = document.getElementById('miniMusicBtns');
       const miniShowPlayerBtn = document.getElementById('miniShowPlayerBtn');
+      
       gallery.classList.toggle('active');
       document.body.classList.toggle('gallery-open');
+
       if (gallery.classList.contains('active')) {
+        // Галерея открыта: скрываем основной плеер
         musicPlayer.classList.add('hide');
+        // Показываем мини-кнопки (если еще не показаны)
         miniMusicBtns.style.display = 'flex';
+        // Показываем кнопку "показать плеер"
         miniShowPlayerBtn.style.display = 'inline-flex';
-        updatePlayPauseButton();
+        updatePlayPauseButton(); // Обновляем состояние play/pause
       } else {
+        // Галерея закрыта: показываем основной плеер
         musicPlayer.classList.remove('hide');
-        miniMusicBtns.style.display = 'none';
+        // Скрываем кнопку "показать плеер"
         miniShowPlayerBtn.style.display = 'none';
+        updatePlayPauseButton(); // Обновляем состояние play/pause
       }
     }
 
@@ -408,24 +418,35 @@
       }
     });
 
+    // Функция для скрытия основного плеера (по кнопке 'x')
     function hideMusicPlayer() {
       const musicPlayer = document.querySelector('.music-player');
       const miniMusicBtns = document.getElementById('miniMusicBtns');
       const miniShowPlayerBtn = document.getElementById('miniShowPlayerBtn');
-      musicPlayer.classList.add('hide');
+
+      musicPlayer.classList.add('hide'); // Скрываем основной плеер
+      // Показываем мини-кнопки (если еще не показаны)
       miniMusicBtns.style.display = 'flex';
+      // Показываем кнопку "показать плеер"
       miniShowPlayerBtn.style.display = 'inline-flex';
-      updatePlayPauseButton();
+      updatePlayPauseButton(); // Обновляем состояние play/pause
     }
 
+    // Функция для показа основного плеера (по мини-кнопке '🎵')
     function showMusicPlayer() {
       const musicPlayer = document.querySelector('.music-player');
       const miniMusicBtns = document.getElementById('miniMusicBtns');
       const miniShowPlayerBtn = document.getElementById('miniShowPlayerBtn');
-      musicPlayer.classList.remove('hide');
-      miniMusicBtns.style.display = 'none';
+
+      musicPlayer.classList.remove('hide'); // Показываем основной плеер
+      // Скрываем кнопку "показать плеер"
       miniShowPlayerBtn.style.display = 'none';
+      // Блок мини-кнопок остается видимым, только кнопка play/pause видна
+      updatePlayPauseButton(); // Обновляем состояние play/pause
     }
+
+    // Обновляем иконку play/pause при загрузке страницы
+    updatePlayPauseButton();
   </script>
 
 </body>
