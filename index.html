@@ -10,6 +10,62 @@
 
   <h1>Для моей Любимой ❤️</h1>
 
+  <!-- Кнопка "Моя" -->
+  <div class="my-button-container">
+    <button class="my-button" onclick="toggleGallery()">Моя ❤️</button>
+  </div>
+
+  <!-- Новая галерея -->
+  <div class="beautiful-gallery" id="beautifulGallery">
+    <div class="gallery-header">
+      <h2>Моя любимая</h2>
+      <button class="close-gallery" onclick="toggleGallery()">×</button>
+    </div>
+    <div class="gallery-grid">
+      <div class="gallery-item" onclick="openFullscreen(this)">
+        <img src="assets/images/gallery/1.jpg" alt="Фото 1">
+        <div class="gallery-caption">Ты - мое вдохновение</div>
+      </div>
+      <div class="gallery-item" onclick="openFullscreen(this)">
+        <img src="assets/images/gallery/2.jpg" alt="Фото 2">
+        <div class="gallery-caption">Моя любовь</div>
+      </div>
+      <div class="gallery-item" onclick="openFullscreen(this)">
+        <img src="assets/images/gallery/3.jpg" alt="Фото 3">
+        <div class="gallery-caption">Моя радость</div>
+      </div>
+      <div class="gallery-item" onclick="openFullscreen(this)">
+        <img src="assets/images/gallery/4.jpg" alt="Фото 4">
+        <div class="gallery-caption">Мое счастье</div>
+      </div>
+      <div class="gallery-item" onclick="openFullscreen(this)">
+        <img src="assets/images/gallery/5.jpg" alt="Фото 5">
+        <div class="gallery-caption">Моя мечта</div>
+      </div>
+      <div class="gallery-item" onclick="openFullscreen(this)">
+        <img src="assets/images/gallery/6.jpg" alt="Фото 6">
+        <div class="gallery-caption">Моя жизнь</div>
+      </div>
+      <div class="gallery-item" onclick="openFullscreen(this)">
+        <img src="assets/images/gallery/7.jpg" alt="Фото 7">
+        <div class="gallery-caption">Моя судьба</div>
+      </div>
+      <div class="gallery-item" onclick="openFullscreen(this)">
+        <img src="assets/images/gallery/8.jpg" alt="Фото 8">
+        <div class="gallery-caption">Моя вечность</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Полноэкранный просмотр фото -->
+  <div class="fullscreen-viewer" id="fullscreenViewer">
+    <button class="close-fullscreen" onclick="closeFullscreen()">×</button>
+    <button class="nav-btn prev-btn" onclick="navigatePhoto(-1)">❮</button>
+    <button class="nav-btn next-btn" onclick="navigatePhoto(1)">❯</button>
+    <img id="fullscreenImage" src="" alt="Fullscreen view">
+    <div class="fullscreen-caption"></div>
+  </div>
+
   <!-- Падающие сердечки -->
   <script>
     for (let i = 0; i < 30; i++) {
@@ -93,10 +149,208 @@
   </div>
 
   <!-- Фоновая музыка -->
-  <audio autoplay loop>
-    <source src="Soon, My Love❤️ (1) (1).mp3" type="audio/mpeg">
-    Ваш браузер не поддерживает аудио.
-  </audio>
+  <div class="music-player">
+    <div class="player-controls">
+      <button onclick="previousTrack()" class="control-btn">⏮️</button>
+      <button onclick="togglePlay()" class="control-btn" id="playPauseBtn">▶️</button>
+      <button onclick="nextTrack()" class="control-btn">⏭️</button>
+    </div>
+    <div class="playlist">
+      <div class="now-playing">Сейчас играет: <span id="currentTrack">-</span></div>
+      <ul id="playlist">
+        <!-- Треки будут добавлены через JavaScript -->
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    const playlist = [
+      {
+        title: "Soon, My Love",
+        file: "assets/music/Soon, My Love❤️ (1) (1).mp3"
+      },
+      {
+        title: "Bientôt, mon amour (Tu me manques follem",
+        file: "assets/music/Bientôt, mon amour (Tu me manques follem.mp3"
+      },
+      {
+        title: "Бессонница",
+        file: "assets/music/Бессонница .mp3"
+      },
+      {
+        title: "Весна",
+        file: "assets/music/Весна.mp3"
+      },
+      {
+        title: "Миша_Марвин_Не_Надо_Быть_Сильной",
+        file: "assets/music/Миша_Марвин_Не_Надо_Быть_Сильной.mp3"
+      },
+      {
+        title: "Навсегда с тобой",
+        file: "assets/music/Навсегда с тобой .mp3"
+      },
+      {
+        title: "Прости что не написал..",
+        file: "assets/music/Прости что не написал...mp3"
+      },
+      {
+        title: "Скоро, моя любовь❤️",
+        file: "assets/music/Скоро, моя любовь❤️.mp3"
+      },
+      {
+        title: "Ты — моя Вселенная",
+        file: "assets/music/Ты — моя Вселенная.mp3"
+      },
+      {
+        title: "Я сильно скучаю по тебе....",
+        file: "assets/music/Я сильно скучаю по тебе.... (2).mp3"
+      }
+    ];
+
+    let currentTrackIndex = 0;
+    const audio = new Audio();
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const currentTrackSpan = document.getElementById('currentTrack');
+    const playlistElement = document.getElementById('playlist');
+
+    // Создаем элементы плейлиста
+    playlist.forEach((track, index) => {
+      const li = document.createElement('li');
+      li.textContent = track.title;
+      li.onclick = () => playTrack(index);
+      playlistElement.appendChild(li);
+    });
+
+    function playTrack(index) {
+      currentTrackIndex = index;
+      audio.src = playlist[index].file;
+      audio.play();
+      updatePlayPauseButton();
+      updateCurrentTrack();
+    }
+
+    function togglePlay() {
+      if (audio.paused) {
+        audio.play();
+      } else {
+        audio.pause();
+      }
+      updatePlayPauseButton();
+    }
+
+    function updatePlayPauseButton() {
+      playPauseBtn.textContent = audio.paused ? '▶️' : '⏸️';
+    }
+
+    function updateCurrentTrack() {
+      currentTrackSpan.textContent = playlist[currentTrackIndex].title;
+    }
+
+    function nextTrack() {
+      currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
+      playTrack(currentTrackIndex);
+    }
+
+    function previousTrack() {
+      currentTrackIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
+      playTrack(currentTrackIndex);
+    }
+
+    // Автоматическое воспроизведение следующего трека
+    audio.addEventListener('ended', nextTrack);
+
+    // Начинаем воспроизведение первого трека
+    playTrack(0);
+
+    // Функция для открытия/закрытия галереи
+    function toggleGallery() {
+      const gallery = document.getElementById('beautifulGallery');
+      gallery.classList.toggle('active');
+      document.body.classList.toggle('gallery-open');
+    }
+
+    // Закрытие галереи по клику вне её области
+    document.addEventListener('click', function(event) {
+      const gallery = document.getElementById('beautifulGallery');
+      const myButton = document.querySelector('.my-button');
+      if (gallery.classList.contains('active') && 
+          !gallery.contains(event.target) && 
+          !myButton.contains(event.target)) {
+        gallery.classList.remove('active');
+        document.body.classList.remove('gallery-open');
+      }
+    });
+
+    // Обработка нажатия Escape
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        const gallery = document.getElementById('beautifulGallery');
+        if (gallery.classList.contains('active')) {
+          gallery.classList.remove('active');
+          document.body.classList.remove('gallery-open');
+        }
+      }
+    });
+
+    // Функции для полноэкранного просмотра
+    let currentPhotoIndex = 0;
+    const galleryItems = document.querySelectorAll('.gallery-item');
+
+    function openFullscreen(element) {
+      const viewer = document.getElementById('fullscreenViewer');
+      const fullscreenImage = document.getElementById('fullscreenImage');
+      const caption = document.querySelector('.fullscreen-caption');
+      
+      currentPhotoIndex = Array.from(galleryItems).indexOf(element);
+      const img = element.querySelector('img');
+      const imgCaption = element.querySelector('.gallery-caption');
+      
+      fullscreenImage.src = img.src;
+      caption.textContent = imgCaption.textContent;
+      
+      viewer.classList.add('active');
+      document.body.classList.add('fullscreen-open');
+    }
+
+    function closeFullscreen() {
+      const viewer = document.getElementById('fullscreenViewer');
+      viewer.classList.remove('active');
+      document.body.classList.remove('fullscreen-open');
+    }
+
+    function navigatePhoto(direction) {
+      currentPhotoIndex = (currentPhotoIndex + direction + galleryItems.length) % galleryItems.length;
+      const newElement = galleryItems[currentPhotoIndex];
+      const img = newElement.querySelector('img');
+      const caption = newElement.querySelector('.gallery-caption');
+      
+      const fullscreenImage = document.getElementById('fullscreenImage');
+      const fullscreenCaption = document.querySelector('.fullscreen-caption');
+      
+      fullscreenImage.src = img.src;
+      fullscreenCaption.textContent = caption.textContent;
+    }
+
+    // Закрытие полноэкранного просмотра по клику вне изображения
+    document.getElementById('fullscreenViewer').addEventListener('click', function(event) {
+      if (event.target === this) {
+        closeFullscreen();
+      }
+    });
+
+    // Навигация по клавишам
+    document.addEventListener('keydown', function(event) {
+      if (document.body.classList.contains('fullscreen-open')) {
+        if (event.key === 'Escape') {
+          closeFullscreen();
+        } else if (event.key === 'ArrowLeft') {
+          navigatePhoto(-1);
+        } else if (event.key === 'ArrowRight') {
+          navigatePhoto(1);
+        }
+      }
+    });
+  </script>
 
 </body>
 </html>
