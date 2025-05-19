@@ -338,6 +338,17 @@ body {
     padding: 4px 6px;
     font-size: 12px;
   }
+
+  /* Адаптивные стили для мини-кнопок */
+  .mini-music-btns {
+    left: 8px;
+    bottom: 8px;
+    gap: 8px;
+  }
+  .mini-music-btn {
+    width: 24px;
+    height: 24px;
+  }
 }
 
 /* Стили для планшетов в портретной ориентации */
